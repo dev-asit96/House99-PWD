@@ -5,6 +5,20 @@ const resourcesToPrecache = [
   'style.css',
   'images/HOUSE99.png',
   'images/handsome-man-barber-shop-styling-hair.jpg',
+  'images/close.png',
+  'images/cristiano-ronaldo.jpg',
+  'images/david-beckham.jpg',
+  'images/footer-img.jpg',
+  'images/handsome-man-cutting-beard-barber-salon.jpg',
+  'images/HOUSE99-192-192.png',
+  'images/HOUSE99-512.png',
+  'images/menu.png',
+  'images/pic-1.jpg',
+  'images/pic-2.jpg',
+  'images/pic-3.jpg',
+  'images/pic-4.jpg',
+  'images/Webp.net-resizeimage.jpg',
+  'images/zayn-malik.jpg',
 ];
 
 //Install Service workers
