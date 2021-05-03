@@ -1,5 +1,6 @@
 const cache_name = 'pages-cache-v1';
 const urlsToCache = [
+  '/',
   'index.html',
   'style.css',
   'offline.html',
@@ -22,21 +23,42 @@ const urlsToCache = [
 const self = this;
 
 self.addEventListener('install', (event) => {
+  console.log('Install event');
   event.waitUntil(
     caches.open(cache_name).then((cache) => {
       console.log('Opened cache');
-
-      return cache.addAll(urlsToCache);
+      return cache.addAll(urlsToCache).catch((error) => {
+        console.error('Error adding files to cache', error);
+      });
     })
   );
+  console.info('SW installed');
+  self.skipWaiting();
 });
 
-//Listen for request
-// Listen for requests
+//Activate
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== cache_name) {
+            console.log('Deleting old Cache', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim();
+});
+
+//Fetch
 self.addEventListener('fetch', (event) => {
+  console.info('SW fetch', event.request.url);
   event.respondWith(
-    caches.match(event.request).then(() => {
-      return fetch(event.request).catch(() => caches.match('offline.html'));
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
     })
   );
 });
